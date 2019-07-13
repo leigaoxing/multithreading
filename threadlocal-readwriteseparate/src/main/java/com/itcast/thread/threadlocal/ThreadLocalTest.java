@@ -17,42 +17,33 @@ public class ThreadLocalTest {
 
     public static void main(String[] args) {
         for (int i = 0; i < 2; i++) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    int data = new Random().nextInt();
-                    System.out.println(Thread.currentThread().getName() +
-                            "has data: " + data);
+            new Thread(() -> {
+                int data = new Random().nextInt();
+                System.out.println(Thread.currentThread().getName() + "has data: " + data);
 //					MyThreadScopeData md = new MyThreadScopeData("name" + data, data);
 //					myData.set(md);
-                    MyThreadScopeData.getThreadInstance().setAge(data);
-                    MyThreadScopeData.getThreadInstance().setName("name" + data);
-                    x.set(data);
-                    new A().get();
-                    new B().get();
-                }
+                MyThreadScopeData.getThreadInstance().setAge(data);
+                MyThreadScopeData.getThreadInstance().setName("name" + data);
+                x.set(data);
+                new A().get();
+                new B().get();
             }).start();
         }
     }
 
     static class A {
         public int get() {
-            System.out.println("A " + Thread.currentThread().getName() +
-                    "has data: " + x.get());
-//			System.out.println("A " + Thread.currentThread().getName()+
-//					"has data: " + myData.get());
-            System.out.println("A " + Thread.currentThread().getName() +
-                    "has data: " + MyThreadScopeData.getThreadInstance());
+            System.out.println("A " + Thread.currentThread().getName() + "has data: " + x.get());
+//			System.out.println("A " + Thread.currentThread().getName()+ "has data: " + myData.get());
+            System.out.println("A " + Thread.currentThread().getName() + "has data: " + MyThreadScopeData.getThreadInstance());
             return x.get();
         }
     }
 
     static class B {
         public int get() {
-            System.out.println("B " + Thread.currentThread().getName() +
-                    "has data: " + x.get());
-            System.out.println("B " + Thread.currentThread().getName() +
-                    "has data: " + MyThreadScopeData.getThreadInstance());
+            System.out.println("B " + Thread.currentThread().getName() + "has data: " + x.get());
+            System.out.println("B " + Thread.currentThread().getName() + "has data: " + MyThreadScopeData.getThreadInstance());
             return x.get();
         }
     }
@@ -62,7 +53,7 @@ public class ThreadLocalTest {
  * 使用ThreadLocal创建单例模式，对于每个线程来说，可以设置与本线程相关的数据
  */
 class MyThreadScopeData {
-// 把 ThreadLocal 方法想要存放的实体内部，进行赋值，
+    //region 把 ThreadLocal 方法想要存放的实体内部，进行赋值
     private static ThreadLocal<MyThreadScopeData> map = new ThreadLocal<>();
 
     public static MyThreadScopeData getThreadInstance() {
@@ -73,7 +64,8 @@ class MyThreadScopeData {
         }
         return instance;
     }
-//
+    //endregion
+
     private String name;
 
     private int age;

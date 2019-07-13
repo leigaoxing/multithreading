@@ -22,7 +22,6 @@ public class TraditionalTimer {
             }
         }, 10000, 3000);
 
-
         while (true) {
             System.out.println(new Date().getSeconds());
             try {
@@ -31,7 +30,5 @@ public class TraditionalTimer {
                 e.printStackTrace();
             }
         }
-
     }
-
 }
