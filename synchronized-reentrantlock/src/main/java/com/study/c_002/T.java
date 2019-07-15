@@ -1,18 +1,17 @@
-package com.study.c_001;
+package com.study.c_002;
 
 /**
  * synchronized关键字  对某个对象加锁
- * 只要有一个线程拿到了这个锁，其他线程就不能够拿导这个锁，也即互斥锁。
+ * c_001中，每次使用新new出的对象作为锁定对象，实在是太麻烦了，可以使用锁定this，也就是锁定当前对象
  *
  * @date: 2019/7/13
  * @author: gxl
  */
 public class T {
     private int count = 10;
-    private Object o = new Object();
 
     public void m() {
-        synchronized (o) {//任何线程要执行下面的代码，必须先拿到o的锁
+        synchronized (this) {//任何线程要执行下面的代码，必须先拿到this的锁
             count--;
             System.out.println(Thread.currentThread().getName() + " count " + count);
         }
